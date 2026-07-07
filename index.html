@@ -1,77 +1,669 @@
 <!DOCTYPE HTML>
-<html>
-	<head>
-		<title>Jakkraphong Vattanavongthon | Computer Science Portfolio</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-	</head>
-	<body class="is-preload">
+<html lang="en">
+<head>
+  <title>Jakkraphong - Portfolio</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+  :root{
+    --bg:#080b10;
+    --surface:#0f1318;
+    --surface2:#161c24;
+    --border:#1c2530;
+    --border2:#243040;
+    --accent:#3dffa0;
+    --accent2:#00e87a;
+    --accent-dim:rgba(61,255,160,0.10);
+    --accent-glow:rgba(61,255,160,0.28);
+    --text:#dde4ec;
+    --muted:#637585;
+    --muted2:#8fa0b0;
+    --mono:'JetBrains Mono',monospace;
+    --sans:'Space Grotesk',sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-		<!-- Header -->
-			<header id="header">
-				<h1>Hi, I'm Kao</h1>
-				<p>Computer Science Student @Rangsit University | Aspiring Software Engineer & Software Tester</p>
-			</header>
+  /* ── GRID BG ── */
+  body::after{
+    content:'';position:fixed;inset:0;
+    background-image:
+      linear-gradient(rgba(61,255,160,0.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(61,255,160,0.025) 1px,transparent 1px);
+    background-size:60px 60px;
+    pointer-events:none;z-index:0;
+  }
 
-		<!-- Main -->
-			<div id="main">
+  /* ── RIPPLE CANVAS ── */
+  #ripple-canvas{position:fixed;inset:0;pointer-events:none;z-index:999}
 
-				<!-- About Me -->
-					<section id="about">
-						<h2>About Me (แนะนำตัว)</h2>
-						<p>สวัสดีครับ ผมกำลังศึกษาในหลักสูตรวิทยาศาสตรบัณฑิต สาขาวิชาวิทยาการคอมพิวเตอร์ (Computer Science) มหาวิทยาลัยรังสิต มีความหลงใหลในระบบการทำงานของซอฟต์แวร์และการเขียนโค้ดที่สะอาด มีประสิทธิภาพ ตอนนี้กำลังมองหาโอกาสในการฝึกงานในตำแหน่ง <strong>Software Engineer</strong> หรือ <strong>Software Tester / QA</strong> เพื่อนำทักษะด้าน Logic, Testing และการพัฒนามาช่วยทีมส่งมอบผลิตภัณฑ์ที่มีคุณภาพสูงครับ</p>
-					</section>
+  /* ── SCROLL PROGRESS ── */
+  #progress{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:200;transition:width 0.1s linear;width:0%}
 
-				<!-- Skills -->
-					<section id="skills">
-						<h2>Technical Skills & Tools</h2>
-						<ul>
-							<li><strong>Programming Languages:</strong> Python, Java, C, SQL</li>
-							<li><strong>Software Engineering & Development:</strong> Compilation Theory Concepts (Lexer/Parser), Environment & Dependency Management</li>
-							<li><strong>Testing & Logic:</strong> Proximity & Edge Case Logic Testing, System Flow Optimization, Unit Testing Concepts</li>
-							<li><strong>Tools & Platforms:</strong> Git/GitHub, VS Code, Notion (Project Management)</li>
-						</ul>
-					</section>
+  /* ── NAV ── */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;
+    backdrop-filter:blur(16px);background:rgba(8,11,16,0.88);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-left{display:flex;align-items:center;gap:2rem}
+  .nav-logo{font-family:var(--mono);font-size:0.9rem;color:var(--accent);text-decoration:none;letter-spacing:0.05em}
+  .nav-logo span{color:var(--muted2)}
+  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links a{font-size:0.82rem;color:var(--muted2);text-decoration:none;letter-spacing:0.05em;transition:color .2s;position:relative;padding-bottom:2px}
+  .nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--accent);transition:width .25s}
+  .nav-links a:hover{color:var(--accent)}
+  .nav-links a:hover::after{width:100%}
+  .lang-toggle{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .lang-btn{font-family:var(--mono);font-size:0.72rem;font-weight:700;letter-spacing:.06em;padding:.4rem .8rem;background:transparent;color:var(--muted);border:none;cursor:pointer;transition:background .2s,color .2s}
+  .lang-btn.active{background:var(--accent);color:var(--bg)}
 
-				<!-- Projects -->
-					<section id="projects">
-						<h2>Featured Projects (โปรเจกต์ไฮไลต์)</h2>
-						
-						<!-- Project 1 -->
-						<div class="project-item">
-							<h3>1. Python Application & Dependency Management Project</h3>
-							<p><strong>Role:</strong> Backend Developer / Project Manager</p>
-							<p>พัฒนาโปรแกรมด้วยภาษา Python โดยมีการบริหารจัดการและแก้ไขปัญหา Environment Mismatch รวมถึงความขัดแย้งของไลบรารีต่างๆ เพื่อให้ระบบทำงานได้อย่างถูกต้องราบรื่นตาม Execution Pipeline ที่วางไว้</p>
-						</div>
-						<br>
-						<!-- Project 2 -->
-						<div class="project-item">
-							<h3>2. Embedded System Logic & Proximity Alarm Verification</h3>
-							<p><strong>Role:</strong> Software Developer & Tester</p>
-							<p>ออกแบบและพัฒนา Functional Logic สำหรับระบบแจ้งเตือนระยะอัจฉริยะ (Proximity Alarm) โดยใช้เซนเซอร์และบอร์ดไมโครคอนโทรลเลอร์ มีการทำสอบ Edge Case และปรับปรุงตรรกะความแม่นยำในการสั่งการระบบ Buzzer และ LED ให้อยู่ในเกณฑ์ที่กำหนด</p>
-						</div>
-					</section>
+  /* ── CONTAINER ── */
+  .container{max-width:960px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
 
-				<!-- Contact -->
-					<section id="contact">
-						<h2>Contact (ช่องทางการติดต่อ)</h2>
-						<p>หากสนใจพิจารณาเข้าร่วมฝึกงานหรือต้องการสอบถามข้อมูลเพิ่มเติม ติดต่อผมได้ทันทีครับ</p>
-						<ul>
-							<li><strong>Email:</strong> (ใส่อีเมลของคุณตรงนี้เพื่อระบบติดต่อ)</li>
-							<li><strong>Phone:</strong> (+66) 65-008-3003</li>
-							<li><strong>GitHub:</strong> github.com/Korkao99</li>
-						</ul>
-					</section>
+  /* ── HERO ── */
+  #hero{min-height:100vh;display:flex;align-items:center;padding:7rem 0 4rem;position:relative;overflow:hidden}
+  .hero-glow{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);
+    width:700px;height:500px;
+    background:radial-gradient(ellipse,rgba(61,255,160,0.07) 0%,transparent 65%);
+    pointer-events:none;
+  }
+  .hero-eyebrow{
+    font-family:var(--mono);font-size:0.75rem;color:var(--accent);
+    letter-spacing:.18em;text-transform:uppercase;margin-bottom:1.75rem;
+    display:flex;align-items:center;gap:.75rem;
+  }
+  .hero-eyebrow::before{content:'';display:inline-block;width:2rem;height:1px;background:var(--accent)}
+  .hero-dot{
+    width:7px;height:7px;background:var(--accent);border-radius:50%;
+    animation:blink 2s infinite;margin-left:.25rem;
+  }
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+  h1{font-size:clamp(2.6rem,7vw,5.2rem);font-weight:700;line-height:1.04;letter-spacing:-.035em;margin-bottom:1.5rem}
+  .accent-text{color:var(--accent)}
+  .hero-sub{font-size:1.05rem;color:var(--muted2);max-width:520px;line-height:1.9;margin-bottom:2.75rem}
+  .hero-cta{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+  .btn-primary{
+    display:inline-flex;align-items:center;gap:.5rem;
+    background:var(--accent);color:#080b10;font-weight:700;font-size:.88rem;
+    padding:.85rem 1.8rem;border-radius:8px;text-decoration:none;letter-spacing:.02em;
+    transition:box-shadow .2s,transform .15s;
+  }
+  .btn-primary:hover{box-shadow:0 0 30px var(--accent-glow);transform:translateY(-2px)}
+  .btn-ghost{
+    display:inline-flex;align-items:center;gap:.5rem;
+    background:transparent;color:var(--text);font-weight:500;font-size:.88rem;
+    padding:.85rem 1.8rem;border-radius:8px;border:1px solid var(--border2);text-decoration:none;
+    transition:border-color .2s,color .2s;
+  }
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+  .hero-stats{
+    display:flex;gap:2.5rem;margin-top:3.5rem;padding-top:2.5rem;
+    border-top:1px solid var(--border);flex-wrap:wrap;
+  }
+  .stat-num{font-size:2rem;font-weight:700;color:var(--accent);font-family:var(--mono);line-height:1}
+  .stat-label{font-size:.78rem;color:var(--muted);margin-top:.3rem;letter-spacing:.04em}
 
-			</div>
+  /* ── SECTION ── */
+  .section{padding:6rem 0;border-top:1px solid var(--border)}
+  .section-label{font-family:var(--mono);font-size:.72rem;color:var(--accent);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.6rem}
+  .section-title{font-size:clamp(1.6rem,3.5vw,2.5rem);font-weight:700;letter-spacing:-.025em;margin-bottom:3rem;line-height:1.15}
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+  /* ── ABOUT ── */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+  .status-badge{
+    display:inline-flex;align-items:center;gap:.5rem;
+    background:var(--accent-dim);border:1px solid rgba(61,255,160,.22);
+    color:var(--accent);font-size:.75rem;font-family:var(--mono);
+    padding:.4rem .9rem;border-radius:100px;margin-bottom:1.5rem;
+  }
+  .about-text p{color:var(--muted2);margin-bottom:1.2rem;font-size:.98rem}
+  .about-text p strong{color:var(--text)}
+  .info-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+  .info-card-header{background:var(--surface2);padding:1rem 1.5rem;border-bottom:1px solid var(--border)}
+  .info-card-header span{font-family:var(--mono);font-size:.72rem;color:var(--accent);letter-spacing:.1em}
+  .info-row{display:flex;justify-content:space-between;align-items:center;padding:.8rem 1.5rem;border-bottom:1px solid var(--border);font-size:.88rem}
+  .info-row:last-child{border-bottom:none}
+  .info-key{font-family:var(--mono);font-size:.7rem;color:var(--muted);letter-spacing:.07em}
+  .info-val{color:var(--text);font-weight:500;text-align:right}
 
-	</body>
+  /* ── SKILLS ── */
+  .skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem}
+  .skill-card{
+    background:var(--surface);border:1px solid var(--border);border-radius:12px;
+    padding:1.6rem;transition:border-color .2s,transform .2s,box-shadow .2s;
+    position:relative;overflow:hidden;
+  }
+  .skill-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,var(--accent),transparent);
+    opacity:0;transition:opacity .25s;
+  }
+  .skill-card:hover{border-color:rgba(61,255,160,.35);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.35)}
+  .skill-card:hover::before{opacity:1}
+  .skill-icon{font-size:1.5rem;margin-bottom:.8rem}
+  .skill-card h3{font-size:.88rem;font-weight:700;margin-bottom:.85rem;color:var(--text)}
+  .tag-row{display:flex;flex-wrap:wrap;gap:.4rem}
+  .tag{
+    font-family:var(--mono);font-size:.7rem;
+    background:rgba(255,255,255,.05);color:var(--muted2);
+    padding:.25rem .65rem;border-radius:5px;letter-spacing:.04em;
+    border:1px solid rgba(255,255,255,.06);
+  }
+
+  /* ── SKILL BARS ── */
+  .skill-bars{display:flex;flex-direction:column;gap:1rem;margin-top:.75rem}
+  .bar-item{}
+  .bar-label{display:flex;justify-content:space-between;font-size:.75rem;margin-bottom:.35rem}
+  .bar-label span:first-child{color:var(--muted2)}
+  .bar-label span:last-child{font-family:var(--mono);color:var(--accent);font-size:.7rem}
+  .bar-track{height:5px;background:var(--border2);border-radius:10px;overflow:hidden}
+  .bar-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:10px;width:0;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+
+  /* ── PROJECTS ── */
+  .project-card{
+    background:var(--surface);border:1px solid var(--border);border-radius:14px;
+    padding:1.75rem 2rem;margin-bottom:1.1rem;
+    display:grid;grid-template-columns:1fr auto;gap:1.5rem;align-items:start;
+    transition:border-color .2s,transform .2s;
+    position:relative;overflow:hidden;text-decoration:none;color:inherit;
+  }
+  .project-card::before{
+    content:'';position:absolute;top:0;left:0;width:3px;height:100%;
+    background:linear-gradient(180deg,var(--accent),var(--accent2));
+    opacity:0;transition:opacity .2s;
+  }
+  .project-card:hover{border-color:rgba(61,255,160,.3);transform:translateX(5px)}
+  .project-card:hover::before{opacity:1}
+  .project-num{font-family:var(--mono);font-size:.7rem;color:var(--accent);letter-spacing:.1em;margin-bottom:.4rem}
+  .project-card h3{font-size:1.05rem;font-weight:700;margin-bottom:.45rem;letter-spacing:-.01em}
+  .project-role{
+    display:inline-block;font-size:.72rem;font-family:var(--mono);
+    color:var(--accent);background:var(--accent-dim);
+    padding:.18rem .6rem;border-radius:4px;margin-bottom:.8rem;
+  }
+  .project-card p{font-size:.9rem;color:var(--muted2);line-height:1.75}
+  .project-tags{margin-top:.85rem}
+  .arrow-icon{color:var(--muted);font-size:1.1rem;margin-top:.2rem;transition:color .2s,transform .2s}
+  .project-card:hover .arrow-icon{color:var(--accent);transform:translate(3px,-3px)}
+  .featured-card{
+    border-color:rgba(61,255,160,.22);
+    background:linear-gradient(135deg,var(--surface),rgba(61,255,160,.03));
+  }
+  .featured-badge{
+    font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--bg);background:var(--accent);padding:.15rem .55rem;border-radius:4px;font-weight:700;
+  }
+  .project-highlights{margin:1rem 0 .5rem;display:flex;flex-direction:column;gap:.55rem}
+  .highlight-item{display:flex;align-items:flex-start;gap:.6rem;font-size:.85rem;color:var(--muted2)}
+  .highlight-icon{flex-shrink:0;font-size:.9rem;margin-top:.08rem}
+
+  /* ── CONTACT ── */
+  .contact-box{
+    background:var(--surface);border:1px solid var(--border);border-radius:16px;
+    padding:3.5rem;text-align:center;position:relative;overflow:hidden;
+  }
+  .contact-glow{
+    position:absolute;bottom:-80px;left:50%;transform:translateX(-50%);
+    width:400px;height:250px;
+    background:radial-gradient(ellipse,rgba(61,255,160,.08) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .contact-box h2{font-size:2.2rem;font-weight:700;letter-spacing:-.025em;margin-bottom:.75rem}
+  .contact-box p{color:var(--muted2);margin-bottom:2rem;font-size:1rem}
+  .contact-links{display:flex;justify-content:center;gap:1.25rem;flex-wrap:wrap;margin-top:1.75rem}
+  .contact-link{
+    display:flex;align-items:center;gap:.5rem;color:var(--muted2);text-decoration:none;
+    font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;
+    padding:.6rem 1.1rem;border:1px solid var(--border);border-radius:8px;transition:color .2s,border-color .2s;
+  }
+  .contact-link:hover{color:var(--accent);border-color:var(--accent)}
+
+  /* ── FOOTER ── */
+  footer{text-align:center;padding:2rem;font-family:var(--mono);font-size:.7rem;color:var(--border2);border-top:1px solid var(--border)}
+
+  /* ── REVEAL ── */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:700px){
+    .about-grid,.skills-grid{grid-template-columns:1fr;gap:2rem}
+    nav{padding:.9rem 1rem}
+    .nav-links{display:none}
+    .nav-left{gap:1rem}
+    .contact-box{padding:2rem 1.25rem}
+    .project-card{grid-template-columns:1fr;padding:1.5rem}
+    .hero-stats{gap:1.75rem}
+  }
+  </style>
+</head>
+<body>
+
+<!-- Ripple Canvas -->
+<canvas id="ripple-canvas"></canvas>
+<!-- Scroll Progress -->
+<div id="progress"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <a href="#hero" class="nav-logo">kao<span>.dev</span></a>
+    <ul class="nav-links">
+      <li><a href="#about"    data-en="About"    data-th="เกี่ยวกับ">About</a></li>
+      <li><a href="#skills"   data-en="Skills"   data-th="ทักษะ">Skills</a></li>
+      <li><a href="#projects" data-en="Projects" data-th="โปรเจกต์">Projects</a></li>
+      <li><a href="#contact"  data-en="Contact"  data-th="ติดต่อ">Contact</a></li>
+    </ul>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn"        onclick="setLang('th')">TH</button>
+  </div>
+</nav>
+
+<!-- ════════════════ HERO ════════════════ -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="container">
+    <div class="hero-eyebrow">
+      <span data-en="Open to internship · 2026" data-th="พร้อมรับการฝึกงาน · 2569">Open to internship · 2026</span>
+      <span class="hero-dot"></span>
+    </div>
+    <h1>
+      Hi, I'm <span class="accent-text">Kao</span><br>
+      <span data-en="I build things<br>that actually work." data-th="ผมสร้างของที่<br>ทำงานได้จริง">I build things<br>that actually work.</span>
+    </h1>
+    <p class="hero-sub"
+       data-en="CS student, year 3, Rangsit University. I build with Python, Java, and JavaScript. I tend to care about the parts that break — edge cases, bad inputs, things that pass on my machine but shouldn't. That's what pulled me toward QA alongside development."
+       data-th="นักศึกษา CS ปี 3 มหาวิทยาลัยรังสิต เขียนโปรแกรมด้วย Python, Java และ JavaScript ผมสนใจในส่วนที่มักจะพัง — edge case, input ผิดรูปแบบ จุดที่คนมักมองข้าม นั่นคือสิ่งที่ดึงผมเข้าสู่ด้าน QA ควบคู่กับการพัฒนาครับ">
+      CS student, year 3, Rangsit University. I build with Python, Java, and JavaScript. I tend to care about the parts that break — edge cases, bad inputs, things that pass on my machine but shouldn't. That's what pulled me toward QA alongside development.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary" data-en="See My Work →" data-th="ดูผลงาน →">See My Work →</a>
+      <a href="#contact"  class="btn-ghost"   data-en="Get in Touch"  data-th="ติดต่อผม">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">8+</div>
+        <div class="stat-label" data-en="GitHub Projects" data-th="โปรเจกต์บน GitHub">GitHub Projects</div>
+      </div>
+      <div>
+        <div class="stat-num">4</div>
+        <div class="stat-label" data-en="Languages Used" data-th="ภาษาที่ใช้">Languages Used</div>
+      </div>
+      <div>
+        <div class="stat-num">3rd</div>
+        <div class="stat-label" data-en="Year · CS · RSU" data-th="ปี · CS · ม.รังสิต">Year · CS · RSU</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ ABOUT ════════════════ -->
+<section id="about" class="section">
+  <div class="container">
+    <div class="section-label" data-en="About" data-th="เกี่ยวกับผม">About</div>
+    <h2 class="section-title" data-en="Software Engineer &amp; QA Tester" data-th="Software Engineer &amp; QA Tester">Software Engineer &amp; QA Tester</h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <div class="status-badge">
+          <span class="hero-dot"></span>
+          <span data-en="Open to Internship 2026 · 4–6 months" data-th="พร้อมรับการฝึกงาน 2569 · 4–6 เดือน">Open to Internship 2026 · 4–6 months</span>
+        </div>
+        <p data-en="CS student, year 3, Rangsit University. I build things with Python, Java, and JavaScript — most recently a full-stack lost-and-found web app using <strong>Next.js 14 + Firebase</strong>." data-th="นักศึกษา CS ปี 3 มหาวิทยาลัยรังสิต เขียนโปรแกรมด้วย Python, Java และ JavaScript โปรเจกต์ล่าสุดคือ web app ระบบของหาย ด้วย <strong>Next.js 14 + Firebase</strong> ครับ">
+          CS student, year 3, Rangsit University. I build things with Python, Java, and JavaScript — most recently a full-stack lost-and-found web app using <strong>Next.js 14 + Firebase</strong>.
+        </p>
+        <p data-en="I tend to care about the parts that break: edge cases, bad inputs, things that work on my machine but shouldn't. That's what pulled me toward testing and QA alongside development." data-th="ผมสนใจในส่วนที่มักจะพัง — edge case, input ผิดรูปแบบ จุดที่คนมักมองข้าม นั่นคือสิ่งที่ดึงผมเข้าสู่ด้าน Testing และ QA ควบคู่กับการพัฒนาครับ">
+          I tend to care about the parts that break: edge cases, bad inputs, things that work on my machine but shouldn't. That's what pulled me toward testing and QA alongside development.
+        </p>
+        <p data-en="Looking for a <strong>4–6 month internship</strong> as a Software Engineer or QA Tester." data-th="กำลังมองหา <strong>internship 4–6 เดือน</strong> ในตำแหน่ง Software Engineer หรือ QA Tester ครับ">
+          Looking for a <strong>4–6 month internship</strong> as a Software Engineer or QA Tester.
+        </p>
+      </div>
+      <div class="reveal">
+        <div class="info-card">
+          <div class="info-card-header"><span>// profile.json</span></div>
+          <div class="info-row"><span class="info-key">UNIVERSITY</span><span class="info-val">Rangsit University</span></div>
+          <div class="info-row"><span class="info-key">DEGREE</span><span class="info-val">B.Sc. Computer Science</span></div>
+          <div class="info-row"><span class="info-key">YEAR</span><span class="info-val" data-en="3rd Year" data-th="ปี 3">3rd Year</span></div>
+          <div class="info-row"><span class="info-key">LOCATION</span><span class="info-val">Bangkok, Thailand</span></div>
+          <div class="info-row"><span class="info-key">SEEKING</span><span class="info-val">SWE · QA / Tester</span></div>
+          <div class="info-row"><span class="info-key">GITHUB</span><span class="info-val">Korkao99</span></div>
+          <div class="info-row"><span class="info-key">PHONE</span><span class="info-val">(+66) 65-008-3003</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ SKILLS ════════════════ -->
+<section id="skills" class="section">
+  <div class="container">
+    <div class="section-label" data-en="Skills" data-th="ทักษะ">Skills</div>
+    <h2 class="section-title" data-en="What I Work With" data-th="เทคโนโลยีที่ใช้">What I Work With</h2>
+    <div class="skills-grid">
+
+      <div class="skill-card reveal">
+        <div class="skill-icon">⌨️</div>
+        <h3 data-en="Languages" data-th="ภาษาโปรแกรมมิ่ง">Languages</h3>
+        <div class="skill-bars">
+          <div class="bar-item"><div class="bar-label"><span>Python</span><span>★★★★</span></div><div class="bar-track"><div class="bar-fill" data-w="88"></div></div></div>
+          <div class="bar-item"><div class="bar-label"><span>Java</span><span>★★★★</span></div><div class="bar-track"><div class="bar-fill" data-w="78"></div></div></div>
+          <div class="bar-item"><div class="bar-label"><span>JavaScript</span><span>★★★☆</span></div><div class="bar-track"><div class="bar-fill" data-w="70"></div></div></div>
+          <div class="bar-item"><div class="bar-label"><span>TypeScript</span><span>★★★☆</span></div><div class="bar-track"><div class="bar-fill" data-w="60"></div></div></div>
+          <div class="bar-item"><div class="bar-label"><span>C / SQL</span><span>★★★☆</span></div><div class="bar-track"><div class="bar-fill" data-w="58"></div></div></div>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-icon">🌐</div>
+        <h3 data-en="Web & Backend" data-th="เว็บและ Backend">Web &amp; Backend</h3>
+        <div class="tag-row" style="margin-bottom:.85rem">
+          <span class="tag">Next.js 14</span><span class="tag">React</span>
+          <span class="tag">Firebase</span><span class="tag">Firestore</span>
+          <span class="tag">CSS Modules</span><span class="tag">MongoDB</span>
+        </div>
+        <div class="tag-row" style="margin-top:.6rem">
+          <span class="tag">Flask</span><span class="tag">Docker</span><span class="tag">REST API</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-icon">🧪</div>
+        <h3 data-en="Testing & QA" data-th="การทดสอบ & QA">Testing &amp; QA</h3>
+        <div class="tag-row" style="margin-bottom:.85rem">
+          <span class="tag">Unit Testing</span><span class="tag">pytest</span>
+          <span class="tag">Edge Case Analysis</span><span class="tag">vscode-test</span>
+          <span class="tag">System Flow</span><span class="tag">ML Validation</span>
+        </div>
+        <span style="color:var(--muted2);font-size:.82rem" data-en="pytest (SafetyCheck ML app), vscode-test (Extension), embedded logic testing." data-th="pytest (SafetyCheck ML), vscode-test (Extension), ทดสอบ embedded logic ครับ">pytest (SafetyCheck ML app), vscode-test (Extension), embedded logic testing.</span>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-icon">🛠️</div>
+        <h3 data-en="Tools & Platforms" data-th="เครื่องมือ">Tools &amp; Platforms</h3>
+        <div class="tag-row">
+          <span class="tag">Git / GitHub</span><span class="tag">GitHub Desktop</span>
+          <span class="tag">VS Code</span><span class="tag">NetBeans</span>
+          <span class="tag">Webpack</span><span class="tag">Notion</span>
+          <span class="tag">Figma</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PROJECTS ════════════════ -->
+<section id="projects" class="section">
+  <div class="container">
+    <div class="section-label" data-en="Projects" data-th="โปรเจกต์">Projects</div>
+    <h2 class="section-title" data-en="Things I've Built" data-th="ผลงานที่สร้าง">Things I've Built</h2>
+
+    <!-- 01 FEATURED -->
+    <a href="https://github.com/Korkao99/pj350" target="_blank" class="project-card featured-card reveal" style="display:grid">
+      <div>
+        <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.5rem">
+          <div class="project-num">01</div>
+          <span class="featured-badge" data-en="Featured" data-th="ไฮไลต์">Featured</span>
+        </div>
+        <h3 data-en="Lost & Found System — Full-Stack Web App" data-th="ระบบแจ้งของหายในองค์กร — Full-Stack Web App">Lost &amp; Found System — Full-Stack Web App</h3>
+        <div class="project-role" data-en="Full-Stack Developer" data-th="นักพัฒนา Full-Stack">Full-Stack Developer</div>
+        <p data-en="Web app for reporting and tracking lost items inside an organization. Built with Next.js 14 + Firebase — auth, real-time Firestore, role-based admin dashboard, and fully responsive UI. This is the most complete project I've shipped end-to-end." data-th="Web app สำหรับแจ้งและติดตามของหายภายในองค์กร พัฒนาด้วย Next.js 14 + Firebase มีระบบ Auth, Firestore real-time, Admin Dashboard แบบ role-based และ responsive UI ครบครันครับ">
+          Web app for reporting and tracking lost items inside an organization. Built with Next.js 14 + Firebase — auth, real-time Firestore, role-based admin dashboard, and fully responsive UI. This is the most complete project I've shipped end-to-end.
+        </p>
+        <div class="project-highlights">
+          <div class="highlight-item"><span class="highlight-icon">🔐</span><span data-en="Firebase Auth — Email/Password + session management" data-th="Firebase Auth — Email/Password + จัดการ session">Firebase Auth — Email/Password + session management</span></div>
+          <div class="highlight-item"><span class="highlight-icon">⚡</span><span data-en="Firestore real-time queries + role-based admin access control" data-th="Firestore real-time + ระบบสิทธิ์ Admin แบบ role-based">Firestore real-time queries + role-based admin access control</span></div>
+          <div class="highlight-item"><span class="highlight-icon">📱</span><span data-en="Fully responsive — mobile-first CSS Modules layout" data-th="Responsive ทุกหน้าจอ — CSS Modules layout mobile-first">Fully responsive — mobile-first CSS Modules layout</span></div>
+        </div>
+        <div class="project-tags tag-row" style="margin-top:1rem">
+          <span class="tag">Next.js 14</span><span class="tag">React</span><span class="tag">Firebase</span><span class="tag">Firestore</span><span class="tag">JavaScript</span><span class="tag">CSS Modules</span>
+        </div>
+      </div>
+      <div class="arrow-icon">↗</div>
+    </a>
+
+    <!-- 02 SAFETYCHECK -->
+    <a href="https://github.com/Korkao99/SafetyCheck" target="_blank" class="project-card reveal" style="display:grid;border-color:rgba(61,255,160,0.18)">
+      <div>
+        <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.5rem">
+          <div class="project-num">02</div>
+          <span style="font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:#3dffa0;background:rgba(61,255,160,0.1);padding:.15rem .55rem;border-radius:4px;font-weight:700;border:1px solid rgba(61,255,160,0.25)" data-en="ML · Python" data-th="ML · Python">ML · Python</span>
+        </div>
+        <h3 data-en="SafetyCheck — Thai SMS Spam/Scam Detector" data-th="SafetyCheck — ตรวจจับ SMS Spam/Scam ภาษาไทย">SafetyCheck — Thai SMS Spam/Scam Detector</h3>
+        <div class="project-role" data-en="ML Developer / Backend Engineer" data-th="นักพัฒนา ML / Backend">ML Developer / Backend Engineer</div>
+        <p data-en="Flask web app that classifies Thai SMS into 4 categories: OK, OTP, spam, scam. Trained an ML classifier using NLP feature extraction, packaged with Docker, and covered with pytest test suites. Includes a feedback loop — users can flag wrong predictions to improve the model." data-th="Web app Flask ที่จัดประเภท SMS ภาษาไทยเป็น 4 ประเภท: OK, OTP, spam, scam เทรน ML classifier ด้วย NLP, บรรจุด้วย Docker และมี pytest test suite ครบ รวมถึง feedback loop ให้ผู้ใช้รายงานผลผิดเพื่อพัฒนาโมเดลครับ">
+          Flask web app that classifies Thai SMS into 4 categories: OK, OTP, spam, scam. Trained an ML classifier using NLP feature extraction, packaged with Docker, and covered with pytest test suites. Includes a feedback loop — users can flag wrong predictions to improve the model.
+        </p>
+        <div class="project-highlights">
+          <div class="highlight-item"><span class="highlight-icon">🤖</span><span data-en="ML classifier trained on Thai SMS dataset — Jupyter Notebook pipeline" data-th="ML classifier เทรนบน dataset SMS ภาษาไทย ผ่าน Jupyter Notebook">ML classifier trained on Thai SMS dataset — Jupyter Notebook pipeline</span></div>
+          <div class="highlight-item"><span class="highlight-icon">🧪</span><span data-en="pytest test suite + rate limiting (15 req/min) + admin feedback dashboard" data-th="pytest test suite + rate limiting + admin dashboard สำหรับ feedback">pytest test suite + rate limiting (15 req/min) + admin feedback dashboard</span></div>
+          <div class="highlight-item"><span class="highlight-icon">🐳</span><span data-en="Fully Dockerized — docker compose up and it runs" data-th="Docker ครบ — รันด้วย docker compose up ได้เลย">Fully Dockerized — docker compose up and it runs</span></div>
+        </div>
+        <div class="project-tags tag-row" style="margin-top:1rem">
+          <span class="tag">Python</span><span class="tag">Flask</span><span class="tag">Machine Learning</span><span class="tag">NLP</span><span class="tag">Docker</span><span class="tag">pytest</span><span class="tag">Jupyter</span>
+        </div>
+      </div>
+      <div class="arrow-icon">↗</div>
+    </a>
+
+    <!-- 03 -->
+    <a href="https://github.com/Korkao99/Speaker" target="_blank" class="project-card reveal" style="display:grid">
+      <div>
+        <div class="project-num">03</div>
+        <h3 data-en="Document Speaker — Python TTS App" data-th="โปรแกรมอ่านเอกสาร (Text-to-Speech)">Document Speaker — Python TTS App</h3>
+        <div class="project-role" data-en="Python Developer" data-th="นักพัฒนา Python">Python Developer</div>
+        <p data-en="Reads documents aloud using text-to-speech. Clean separation of concerns: reader.py handles file parsing, speaker.py handles audio output. Built with solid OOP structure." data-th="โปรแกรมอ่านเอกสารออกเสียงด้วย TTS แยก logic ชัดเจน: reader.py อ่านไฟล์, speaker.py เล่นเสียง โครงสร้าง OOP ที่สะอาดครับ">
+          Reads documents aloud using text-to-speech. Clean separation of concerns: reader.py handles file parsing, speaker.py handles audio output. Built with solid OOP structure.
+        </p>
+        <div class="project-tags tag-row"><span class="tag">Python</span><span class="tag">TTS</span><span class="tag">File I/O</span><span class="tag">OOP</span></div>
+      </div>
+      <div class="arrow-icon">↗</div>
+    </a>
+
+    <!-- 04 -->
+    <a href="https://github.com/Korkao99/Movie-1-" target="_blank" class="project-card reveal" style="display:grid">
+      <div>
+        <div class="project-num">04</div>
+        <h3 data-en="Movie Ticket Booking System — Java" data-th="ระบบจองตั๋วภาพยนตร์ — Java">Movie Ticket Booking System — Java</h3>
+        <div class="project-role" data-en="Java Developer" data-th="นักพัฒนา Java">Java Developer</div>
+        <p data-en="Java console app for booking movie tickets — seat selection, pricing logic, and booking confirmation. Built with OOP principles as part of coursework." data-th="โปรแกรม Java สำหรับจองตั๋วหนัง ครอบคลุมการเลือกที่นั่ง คำนวณราคา และยืนยันการจอง สร้างด้วยหลักการ OOP ครับ">
+          Java console app for booking movie tickets — seat selection, pricing logic, and booking confirmation. Built with OOP principles as part of coursework.
+        </p>
+        <div class="project-tags tag-row"><span class="tag">Java</span><span class="tag">OOP</span><span class="tag">Console App</span></div>
+      </div>
+      <div class="arrow-icon">↗</div>
+    </a>
+
+    <!-- 05 -->
+    <a href="https://github.com/Korkao99/Extension" target="_blank" class="project-card reveal" style="display:grid">
+      <div>
+        <div class="project-num">05</div>
+        <h3 data-en="VS Code Extension — TypeScript" data-th="ส่วนขยาย VS Code — TypeScript">VS Code Extension — TypeScript</h3>
+        <div class="project-role" data-en="Extension Developer / Tester" data-th="นักพัฒนา Extension / ผู้ทดสอบ">Extension Developer / Tester</div>
+        <p data-en="Custom VS Code extension with TypeScript, webpack config, and automated test files using the vscode-test framework. One of the few projects where I explicitly wrote tests." data-th="ส่วนขยาย VS Code ด้วย TypeScript มี webpack config และ test อัตโนมัติด้วย vscode-test โปรเจกต์ที่ผมเขียน test อย่างจริงจังครับ">
+          Custom VS Code extension with TypeScript, webpack config, and automated test files using the vscode-test framework. One of the few projects where I explicitly wrote tests.
+        </p>
+        <div class="project-tags tag-row"><span class="tag">TypeScript</span><span class="tag">VS Code API</span><span class="tag">Webpack</span><span class="tag">vscode-test</span></div>
+      </div>
+      <div class="arrow-icon">↗</div>
+    </a>
+
+    <!-- 06 -->
+    <a href="https://github.com/Korkao99/Netbean_Petshop" target="_blank" class="project-card reveal" style="display:grid">
+      <div>
+        <div class="project-num">06</div>
+        <h3 data-en="Petshop Management — Java Desktop App" data-th="ระบบจัดการร้านสัตว์เลี้ยง — Java Desktop">Petshop Management — Java Desktop App</h3>
+        <div class="project-role" data-en="Java Desktop Developer" data-th="นักพัฒนา Java Desktop">Java Desktop Developer</div>
+        <p data-en="Java GUI app for managing a pet shop — product records, customer registration, and file-based data persistence. Built with NetBeans." data-th="โปรแกรม Java Desktop สำหรับจัดการร้านสัตว์เลี้ยง จัดการข้อมูลสินค้า ลูกค้า และบันทึกลงไฟล์ สร้างด้วย NetBeans ครับ">
+          Java GUI app for managing a pet shop — product records, customer registration, and file-based data persistence. Built with NetBeans.
+        </p>
+        <div class="project-tags tag-row"><span class="tag">Java</span><span class="tag">NetBeans</span><span class="tag">GUI</span><span class="tag">File I/O</span><span class="tag">OOP</span></div>
+      </div>
+      <div class="arrow-icon">↗</div>
+    </a>
+
+    <!-- 07 -->
+    <a href="https://github.com/Korkao99/Netbean_Dit102_Store" target="_blank" class="project-card reveal" style="display:grid">
+      <div>
+        <div class="project-num">07</div>
+        <h3 data-en="DIT102 Store — Java Retail App" data-th="ระบบร้านค้า DIT102 — Java">DIT102 Store — Java Retail App</h3>
+        <div class="project-role" data-en="Java Developer" data-th="นักพัฒนา Java">Java Developer</div>
+        <p data-en="Retail store management app in Java (NetBeans) for DIT102 coursework. Covers product listing, inventory, and transaction handling." data-th="โปรแกรมจัดการร้านค้า Java (NetBeans) ในวิชา DIT102 ครอบคลุมรายการสินค้า สต็อก และการจัดการธุรกรรมครับ">
+          Retail store management app in Java (NetBeans) for DIT102 coursework. Covers product listing, inventory, and transaction handling.
+        </p>
+        <div class="project-tags tag-row"><span class="tag">Java</span><span class="tag">NetBeans</span><span class="tag">OOP</span><span class="tag">Data Structures</span></div>
+      </div>
+      <div class="arrow-icon">↗</div>
+    </a>
+
+    <!-- 08 -->
+    <a href="https://github.com/Korkao99/Netbean_Dit102_v2" target="_blank" class="project-card reveal" style="display:grid">
+      <div>
+        <div class="project-num">08</div>
+        <h3 data-en="DIT102 Store v2 — Refactored" data-th="ระบบร้านค้า DIT102 v2 — ปรับปรุงใหม่">DIT102 Store v2 — Refactored</h3>
+        <div class="project-role" data-en="Java Developer" data-th="นักพัฒนา Java">Java Developer</div>
+        <p data-en="Improved version of the DIT102 store — refactored for better structure and readability. Shows that I revisit and improve my own code rather than just move on." data-th="เวอร์ชันปรับปรุงของ DIT102 Store — refactor โครงสร้างใหม่ให้ดีขึ้น แสดงว่าผมกลับไปปรับปรุงโค้ดเดิมได้ ไม่ใช่แค่เขียนแล้วทิ้งไว้ครับ">
+          Improved version of the DIT102 store — refactored for better structure and readability. Shows that I revisit and improve my own code rather than just move on.
+        </p>
+        <div class="project-tags tag-row"><span class="tag">Java</span><span class="tag">NetBeans</span><span class="tag">Refactoring</span><span class="tag">OOP</span></div>
+      </div>
+      <div class="arrow-icon">↗</div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ════════════════ CONTACT ════════════════ -->
+<section id="contact" class="section">
+  <div class="container">
+    <div class="section-label" data-en="Contact" data-th="ติดต่อ">Contact</div>
+    <div class="contact-box reveal">
+      <div class="contact-glow"></div>
+      <h2 data-en="Let's work together." data-th="ร่วมงานกันได้เลยครับ">Let's work together.</h2>
+      <p data-en="Looking for a 4–6 month internship in Software Engineering or QA. Reach out anytime." data-th="กำลังมองหา internship 4–6 เดือน ด้าน Software Engineering หรือ QA ติดต่อมาได้เลยครับ">
+        Looking for a 4–6 month internship in Software Engineering or QA. Reach out anytime.
+      </p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem">
+        <a href="mailto:jakkraphongprivate@gmail.com?subject=Internship%20Inquiry&body=Hello%20Kao%2C%0A%0AI%20found%20your%20portfolio%20and%20would%20like%20to%20discuss%20an%20internship%20opportunity.%0A%0A" class="btn-primary" style="display:inline-flex">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span data-en="Email" data-th="Email">Email</span>
+        </a>
+        <a href="https://line.me/ti/p/lapkao" target="_blank" rel="noopener noreferrer" class="btn-ghost" style="display:inline-flex;background:rgba(0,185,0,0.12);border-color:rgba(0,185,0,0.4);color:#00c300">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+          <span data-en="Line" data-th="Line">Line</span>
+        </a>
+      </div>
+      <div class="contact-links">
+        <a href="https://github.com/Korkao99" class="contact-link" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+          github.com/Korkao99
+        </a>
+        <a href="tel:+66650083003" class="contact-link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.59 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.06 6.06l.9-.9a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.03z"/></svg>
+          (+66) 65-008-3003
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <span data-en="© 2025 Jakkraphong Vattanavongthon — Built with purpose, tested with care." data-th="© 2568 จักรพงษ์ วัฒนาวงศ์ทอน — สร้างด้วยความตั้งใจ ทดสอบด้วยความละเอียด">© 2025 Jakkraphong Vattanavongthon — Built with purpose, tested with care.</span>
+  </div>
+</footer>
+
+<script>
+// ── LANG TOGGLE ──
+function setLang(lang){
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.toLowerCase()===lang));
+  document.querySelectorAll('[data-en]').forEach(el=>{
+    const t=el.getAttribute('data-'+lang);
+    if(!t)return;
+    t.includes('<')?el.innerHTML=t:el.textContent=t;
+  });
+  document.documentElement.lang=lang==='th'?'th':'en';
+}
+
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  const pct=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100;
+  document.getElementById('progress').style.width=pct+'%';
+});
+
+// ── REVEAL ──
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*90);observer.unobserve(e.target)}});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ── SKILL BARS ──
+const barObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.bar-fill').forEach((b,i)=>{
+        setTimeout(()=>b.style.width=b.dataset.w+'%',i*120+200);
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.3});
+document.querySelectorAll('.skill-card').forEach(c=>barObs.observe(c));
+
+// ── GREEN RIPPLE EFFECT ──
+const canvas=document.getElementById('ripple-canvas');
+const ctx=canvas.getContext('2d');
+let ripples=[];
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+
+document.addEventListener('click',e=>{
+  for(let i=0;i<3;i++){
+    ripples.push({
+      x:e.clientX,y:e.clientY,
+      r:0,
+      maxR:Math.random()*220+120,
+      alpha:0.55,
+      speed:Math.random()*5+5,
+      color:`hsl(${148+Math.random()*20},100%,${60+Math.random()*15}%)`,
+      delay:i*60,
+      born:Date.now()
+    });
+  }
+});
+
+function drawRipples(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const now=Date.now();
+  ripples=ripples.filter(r=>r.alpha>0.01);
+  ripples.forEach(r=>{
+    if(now-r.born<r.delay)return;
+    r.r+=r.speed;
+    r.alpha*=0.92;
+    ctx.beginPath();
+    ctx.arc(r.x,r.y,r.r,0,Math.PI*2);
+    ctx.strokeStyle=r.color.replace(')',`,${r.alpha})`).replace('hsl','hsla');
+    ctx.lineWidth=2;
+    ctx.stroke();
+    // inner soft glow
+    const g=ctx.createRadialGradient(r.x,r.y,r.r*0.6,r.x,r.y,r.r);
+    g.addColorStop(0,`rgba(61,255,160,0)`);
+    g.addColorStop(1,`rgba(61,255,160,${r.alpha*0.08})`);
+    ctx.beginPath();ctx.arc(r.x,r.y,r.r,0,Math.PI*2);
+    ctx.fillStyle=g;ctx.fill();
+  });
+  requestAnimationFrame(drawRipples);
+}
+drawRipples();
+</script>
+</body>
 </html>
